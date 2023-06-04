@@ -1,0 +1,71 @@
+<?= $this->extend('templates/page_main') ?>
+
+<?= $this->section('content') ?>
+
+
+
+
+  <!-- End Navbar -->
+  <main class="main-content  mt-0">
+    <section class="min-vh-100 mb-8">
+      <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('<?= base_url('resources/images/bg-profile.jpg  ') ?>'); background-size: cover; background-position: center;">
+        <span class="mask bg-gradient-dark opacity-6"></span>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 text-center mx-auto">
+              <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="<?= base_url('pembeli/beranda') ?>">
+                <img src="<?= base_url('resources/img/logo-light.png') ?>" class="navbar-brand-img" style="height:6rem;" alt="main_logo">
+              </a>
+              <h1 class="text-white mb-2 mt-5">Selamat Datang Di PendudukCatat!</h1>
+              <p class="text-lead text-white">Silahkan isi form pendaftaran untuk mendaftar menjadi pengguna.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row mt-lg-n10 mt-md-n11 mt-n10">
+          <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+            <div class="card z-index-0">
+              <div class="card-header text-center pt-4">
+                <h5>Daftar Akun</h5>
+              </div>
+              
+              <div class="card-body">
+                <form role="form text-left" method="POST">
+                <?= csrf_field() ?>
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="email-addon" name="nama" required>
+                  </div>
+                  <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="email" required>
+                  </div>
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Nomor HP" aria-label="No" aria-describedby="nomor-addon" name="nomor" required>
+                  </div>
+                  <div class="mb-3">
+                    <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password" required>
+                  </div>
+                  <div class="mb-3">
+                    <input type="password" class="form-control" placeholder="Password Confirmation" aria-label="Password Confirmation" aria-describedby="password-confirmation-addon" name="password-confirmation" required>
+                  </div>
+               
+                  <div class="text-center">
+                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Daftar</button>
+                  </div>
+                  <p class="text-sm mt-3 mb-0">Sudah Punya Akun? <a href="<?= base_url() ?>" class="text-dark font-weight-bolder">Masuk</a></p>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </main>
+
+<!--- ////////////// -->
+
+
+
+<?= $this->endSection() ?>

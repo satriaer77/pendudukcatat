@@ -29,7 +29,39 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+
+// ADMIN //
+$routes->get('admin', 'AdminController::index');
+$routes->post('admin', 'AdminController::loginValidation');
+$routes->get('admin/login', 'AdminController::index');
+$routes->post('admin/login', 'AdminController::loginValidation');
+
+$routes->get('admin/daerah', 'AdminController::daerah');
+$routes->post('admin/daerah', 'AdminController::addRw');
+$routes->get('admin/daerah/rw/(:any)', 'AdminController::daerahRw/$1');
+$routes->post('admin/daerah/editRw', 'AdminController::editRw');
+$routes->post('admin/daerah/rw/(:any)', 'AdminController::addRt/$1');
+$routes->get('admin/daerah/rt/(:any)', 'AdminController::daerahRt/$1');
+$routes->get('admin/daerah/deleteRt/(:any)/(:any)', 'AdminController::deleteRt/$1/$2');
+
+$routes->get('admin/penduduk/', 'AdminController::penduduk');
+$routes->post('admin/penduduk/', 'AdminController::tambahPenduduk');
+$routes->get('admin/penduduk/(:any)', 'AdminController::detailPenduduk/$1');
+$routes->post('admin/penduduk/(:any)', 'AdminController::editPenduduk/$1');
+
+
+// PENDUDUK //
+$routes->get('/', 'PendudukController::index');
+$routes->post('/', 'PendudukController::loginValidation');
+$routes->get('login', 'PendudukController::index');
+$routes->post('login', 'PendudukController::loginValidation');
+$routes->get('register', 'PendudukController::register');
+$routes->post('register', 'PendudukController::addUser');
+
+$routes->get('/beranda', 'PendudukController::index');
+
+
+
 
 /*
  * --------------------------------------------------------------------
