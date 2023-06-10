@@ -11,7 +11,7 @@ class PendudukModel extends Model
 {
     protected $table      = 'penduduk';
     protected $primaryKey = 'nik';
-    protected $allowedFields = ['nik', 'nama_penduduk', 'tanggal_lahir', 'jenis_kelamin', 'agama', 'golongan_darah', 'kewarganegaraan', 'alamat_detail', 'password', 'id_rt', 'id_rw', 'id_pekerjaan']; 
+    protected $allowedFields = ['nik', 'nama_penduduk', 'tanggal_lahir', 'jenis_kelamin', 'agama', 'golongan_darah', 'kewarganegaraan', 'alamat_detail', 'password', 'id_rt', 'id_rw', 'id_pekerjaan', 'foto']; 
 
     public function getAllPenduduk()
     {
@@ -60,7 +60,8 @@ class PendudukModel extends Model
             'alamat_detail' => $data['alamat_detail'],
             'id_rt' => $data['id_rt'],
             'id_rw' => $data['id_rw'],
-            'id_pekerjaan' => $data['id_pekerjaan']
+            'id_pekerjaan' => $data['id_pekerjaan'],
+            'foto' => $data['foto']
         ]);
     }
     public function deletePendudukByNik($nik)

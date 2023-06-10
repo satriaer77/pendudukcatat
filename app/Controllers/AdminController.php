@@ -7,10 +7,11 @@ use App\Models\PendudukModel;
 use App\Models\RwModel;
 use App\Models\RtModel;
 use App\Models\PekerjaanModel;
+use App\Models\PesanModel;
 
 class AdminController extends BaseController
 {
-    protected $AdminModel, $PendudukModel, $RwModel, $RtModel, $PekerjaanModel;
+    protected $AdminModel, $PendudukModel, $RwModel, $RtModel, $PekerjaanModel, $PesanModel;
 
     public function __construct()
     {
@@ -19,6 +20,7 @@ class AdminController extends BaseController
         $this->RwModel = new RwModel();
         $this->RtModel = new RtModel();
         $this->PekerjaanModel = new PekerjaanModel();
+        $this->PesanModel = new PesanModel();
 
     }
 
@@ -88,6 +90,7 @@ class AdminController extends BaseController
 
     public function detailPenduduk($nik)
     {
+        
         $data = [
             'title' => "Detail Penduduk",
             'page'  => "penduduk",
@@ -103,9 +106,26 @@ class AdminController extends BaseController
     public function permohonan()
     {
         $data = [
-            'title' => "Mengelola Permohonan"
+            'title' => "Mengelola Permohonan",
+            'page' => "permohonan"
         ];
         return view('admin/permohonan', $data);
+    }
+    public function permohonanKk()
+    {
+        $data = [
+            'title' => "Mengelola Permohonan Kartu Keluarga",
+            'page' => "permohonan"
+        ];
+        return view('admin/permohonan_kk', $data);
+    }
+    public function permohonanKematian()
+    {
+        $data = [
+            'title' => "Mengelola Permohonan Surat Kematian",
+            'page' => "permohonan"
+        ];
+        return view('admin/permohonan_kematian', $data);
     }
 
     public function detailPermohonan($idPermohonan)
@@ -133,14 +153,33 @@ class AdminController extends BaseController
     }
 
 
+    public function pesan()
+    {
+        $data = [
+            'title' => "Pesan Penduduk",
+            'page' => "pesan",
+            'messages' => $this->PesanModel->getAllPesanNotReadPriority(),
+        ];
+        // dd($data);
+        return view('admin/pesan', $data);
+    }
+    public function pesanPenduduk($nik)
+    {
+        $data = [
+            'title' => "Detail Pesan Penduduk",
+            'page' => "pesan",
+            'messages' => $this->PesanModel->getAllPesanByNik($nik),
+        ];
+        return view('admin/pesan_penduduk', $data);
+    }
+    
     public function report()
     {
         $data = [
-            'title' => "Mengelola Permohonan"
+            'title' => "Mengelola Permohonan",
         ];
         return view('admin/permohonan', $data);
     }
-
 
 
     //-- FUNCTION --//
@@ -275,9 +314,10 @@ class AdminController extends BaseController
         }
         else
         {
+        
             $postData = [
                 'nik' => $this->request->getVar('nik'),
-                'password' => $this->request->getVar('password'),
+                'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
                 'nama_penduduk' => $this->request->getVar('nama-penduduk'),
                 'tanggal_lahir' => $this->request->getVar('tanggal-lahir'),
                 'jenis_kelamin' => $this->request->getVar('jenis-kelamin'),
@@ -287,8 +327,9 @@ class AdminController extends BaseController
                 'id_rw' => $this->request->getVar('id-rw'),
                 'id_rt' => $this->request->getVar('id-rt'),
                 'alamat_detail' => $this->request->getVar('alamat-detail'),
-                'pekerjaan' => $this->request->getVar('pekerjaan'),
+                'id_pekerjaan' => $this->request->getVar('pekerjaan'),
             ];
+            // dd($postData);
             $penduduk = $this->PendudukModel->insertPenduduk($postData);
             return redirect()->to(base_url('admin/penduduk'));
             
@@ -296,6 +337,9 @@ class AdminController extends BaseController
     }
     public function editPenduduk($nik)
     {
+
+        
+
         if(!$this->validate([
             'nik' => 'required',
         ]) )
@@ -306,6 +350,28 @@ class AdminController extends BaseController
         }
         else
         {
+            
+            $penduduk = $this->PendudukModel->getDetailPendudukByNik($nik);
+            $fotoPenduduk = $this->request->getFile('foto');
+            // dd($fotoPenduduk);
+            if($fotoPenduduk->getError() == 4)
+            {
+                $namaFile   = $penduduk["foto"];
+            }
+            else 
+            {
+                $namaFile   = $nik.'.jpg';
+                if($penduduk["foto"] != "default.png")
+                {
+                    unlink('resources/uploads/images/profile/'.$namaFile);
+                    $fotoPenduduk->move('resources/uploads/images/profile/', $namaFile);
+                }
+                else
+                {
+                    $fotoPenduduk->move('resources/uploads/images/profile/', $namaFile);
+                }
+            }
+
             $postData = [
                 'nik' => $nik,
                 'nama_penduduk' => $this->request->getVar('nama-penduduk'),
@@ -318,12 +384,41 @@ class AdminController extends BaseController
                 'id_rt' => $this->request->getVar('id-rt'),
                 'alamat_detail' => $this->request->getVar('alamat-detail'),
                 'id_pekerjaan' => $this->request->getVar('pekerjaan'),
+                'foto' => $namaFile
             ];
+            // dd($postData);
             
             $penduduk = $this->PendudukModel->updatePenduduk($postData);
             return redirect()->to(base_url('admin/penduduk'));
             
         }
+    }
+
+    public function hapusPenduduk($nik)
+    {
+        $penduduk = $this->PendudukModel->getDetailPendudukByNik($nik);
+        
+        if($penduduk["foto"] != "default.png")
+        {
+            unlink('resources/uploads/images/profile/'.$penduduk["foto"]);
+        }
+
+        $this->PendudukModel->deletePendudukByNik($nik);
+        return redirect()->to(base_url('admin/penduduk'));
+    }
+
+    public function kirimPesan($nik)
+    {
+        $postData = [
+            'nik' => $nik,
+            'isi_pesan' => $this->request->getVar('pesan'),
+            'status' => 0,
+            'pengirim' => 0,
+        ];
+
+        // dd($postData);
+        $this->PesanModel->insertPesan($postData);
+        return redirect()->to(base_url("admin/pesan/".$nik));
     }
 
     // 'email' => $this->request->getVar('email'),

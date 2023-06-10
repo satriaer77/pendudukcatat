@@ -18,9 +18,14 @@
     <link id="pagestyle" href="<?= base_url('resources/css/argon-dashboard.min.css') ?>?v=1.0.7" rel="stylesheet" />
     <title><?= $title ?></title>
 </head>
-<body>
+<body class="container">
 
-    <?= $this->renderSection('content') ?>
+    <?= $this->include('penduduk/templates/navbar') ?>
+    <main class="main-content mt-0">
+        <section>
+            <?= $this->renderSection('content') ?>
+        </section>
+    </main>
     
     <script type="text/javascript" src="<?= base_url("resources/js/argon-dashboard.min.js") ?>"></script>
     <script type="text/javascript" src="<?= base_url("resources/js/core/bootstrap.min.js") ?>"></script>

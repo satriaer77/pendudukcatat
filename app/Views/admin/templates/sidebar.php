@@ -23,9 +23,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php if($page == "permohonan") echo "active";  ?>" href="<?= base_url('admin/daerah')  ?>">
+            <a class="nav-link <?php if($page == "permohonan") echo "active";  ?>" href="<?= base_url('admin/permohonan')  ?>">
               <div class="fas fa-file icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></div>
               <span class="<?php if($page == "permohonan") echo "text-bold";  ?> text-white nav-link-text ms-1">Pengelolaan Permohonan</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?php if($page == "pesan") echo "active";  ?>" href="<?= base_url('admin/pesan')  ?>">
+              <div class="fas fa-file icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></div>
+              <span class="<?php if($page == "pesan") echo "text-bold";  ?> text-white nav-link-text ms-1">Pesan Penduduk</span>
             </a>
           </li>
     

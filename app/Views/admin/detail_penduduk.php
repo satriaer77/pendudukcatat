@@ -19,7 +19,8 @@
                             <h3 class="font-weight-bolder text-primary text-gradient">Edit Penduduk</h3>
                         </div>
                         <div class="card-body pb-3">
-                            <form method="POST" role="form text-left">
+                            <form method="POST" role="form text-left" enctype="multipart/form-data">
+                            <?= csrf_field(); ?>
                             <label>NIK</label>
                             <div class="input-group mb-3">
                                 <input type="number" name="nik" class="form-control" placeholder="NIK" aria-label="NIK" aria-describedby="nik-addon" value="<?= $penduduk["nik"] ?>" required>
@@ -95,6 +96,11 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+                            <label>Foto</label>
+                            <div class="input-group mb-3">
+                                <input type="file" name="foto" class="form-control" aria-label="Foto" aria-describedby="foto">
+                            </div>
+
                             <div class="text-center">
                                 <button type="submit" class="btn bg-gradient-primary btn-lg btn-rounded w-100 mt-4 mb-0">Submit</button>
                             </div>

@@ -35,8 +35,8 @@
                             <tr>
                                 <td>
                                     <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="<?= base_url('resources/uploads/images/profile/'.$penduduk["foto"]) ?>" class="avatar avatar-sm me-3" alt="user4">
+                                        <div class="avatar avatar-sm me-3" style="background: url('<?= base_url('resources/uploads/images/profile/'.$penduduk["foto"]) ?>'); background-size:cover">
+                                           
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="mb-0 text-sm"><?= $penduduk["nama_penduduk"] ?></h6>
@@ -55,7 +55,6 @@
                                 </td>
                                 <td class="px-4">
                                     <p class="text-xs font-weight-bold mb-0"><?= $penduduk["nama_pekerjaan"] ?></p>
-                                    <p class="text-xs text-secondary mb-0">Developer</p>
                                 </td>
                                 <td class="align-middle px-4">
                                     <span class="text-secondary text-xs font-weight-bold"><?= $penduduk["tanggal_lahir"] ?></span>
@@ -67,8 +66,11 @@
                                     <span class="text-secondary text-xs font-weight-bold"><?= $penduduk["alamat_detail"]." RT ".$penduduk["no_rt"]." RW ".$penduduk["no_rw"] ?></span>
                                 </td>
                                 <td class="align-middle px-4">
-                                    <a href="<?= base_url('admin/penduduk/'.$penduduk["nik"]) ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                    <a href="<?= base_url('admin/penduduk/'.$penduduk["nik"]) ?>" class="btn btn-outline-warning font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                         Edit
+                                    </a>
+                                    <a href="<?= base_url('admin/deletePenduduk/'.$penduduk["nik"]) ?>" class="btn btn-outline-danger font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                        Hapus
                                     </a>
                                 </td>
                             </tr>
@@ -105,7 +107,7 @@
                   </div>
                   <label>Password</label>
                   <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" required>
+                    <input type="password" name="password" minlength=8 class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" required>
                   </div>
                   <label>Nama Penduduk</label>
                   <div class="input-group mb-3">
@@ -172,7 +174,7 @@
                   </div>
                   <label>Pekerjaan</label>
                   <div class="input-group mb-3">
-                    <select name="id-rt" id="id-rt" class="form-control">
+                    <select name="pekerjaan" id="pekerjaan" class="form-control">
                         <?php foreach($listPekerjaan as $pekerjaan) : ?>
                             <option value="<?= $pekerjaan["id_pekerjaan"] ?>"><?= $pekerjaan["nama_pekerjaan"] ?></option>
                         <?php endforeach; ?>
