@@ -36,6 +36,8 @@ class AdminController extends BaseController
         session();
         $data = [
             'title' => "Login",
+            'page'  => "login",
+
             'validation' => \Config\Services::validation(),
         ];
 
@@ -205,6 +207,31 @@ class AdminController extends BaseController
                 'email' => $this->request->getVar('email'),
                 'password' => $this->request->getVar('password')
             ];
+
+            $admin = $this->AdminModel->getAdminData($postData["email"]);
+            if(count($admin) > 0)
+            {
+                if (password_verify($postData["password"], $admin["password"])) {
+                    $ses_data = [
+                        'email' => $admin['email'],
+                        'nama' => $admin['nama'],
+                        'foto_profil' => $admin['foto_profil'],
+                        'logged_in' => TRUE
+                    ];
+    
+                    session()->set($ses_data);
+                    return redirect()->to(base_url("admin/daerah"));
+                }
+                else
+                {
+                    return redirect()->to(base_url());
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+
             return redirect()->to(base_url("admin/daerah"));
         }
 

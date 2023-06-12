@@ -20,10 +20,12 @@
     <title><?= $title ?></title>
 </head>
 <body class="g-sidenav-show bg-gray-100">
-    <?= $this->include('admin/templates/sidebar') ?>
+    <?php if(session()->get('email') != "") : ?>
+        <?= $this->include('admin/templates/sidebar') ?>
+    <?php endif; ?>
     <main class="main-content position-relative border-radius-lg">
         <?= $this->renderSection('content') ?>
-    </main>
+    </main>ss
     
     <script type="text/javascript" src="<?= base_url("resources/js/argon-dashboard.min.js") ?>"></script>
     <script type="text/javascript" src="<?= base_url("resources/js/core/bootstrap.min.js") ?>"></script>

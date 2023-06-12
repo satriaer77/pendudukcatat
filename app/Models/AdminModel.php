@@ -15,7 +15,7 @@ class AdminModel extends Model
 
     public function getAdminData($dataEmail)
 	{
-        return $this->where('email',$data['email'])->get()->getRowArray();
+        return $this->where('email',$dataEmail)->get()->getRowArray();
 	}
 
     public function insertUser($data)
