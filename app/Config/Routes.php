@@ -46,10 +46,7 @@ $routes->get('admin/daerah/rt/(:any)', 'AdminController::daerahRt/$1');
 $routes->get('admin/daerah/deleteRt/(:any)/(:any)', 'AdminController::deleteRt/$1/$2');
 
 $routes->get('admin/permohonan', 'AdminController::permohonan');
-$routes->get('admin/permohonan/kk', 'AdminController::permohonanKk');
-$routes->get('admin/permohonan/ktp', 'AdminController::permohonanKtp');
-$routes->get('admin/permohonan/akte', 'AdminController::permohonanAkte');
-$routes->get('admin/permohonan/kematian', 'AdminController::permohonanKematian');
+$routes->get('admin/permohonan/(:any)', 'AdminController::permohonanSurat/$1');
 
 
 $routes->get('admin/penduduk/', 'AdminController::penduduk');
@@ -72,13 +69,19 @@ $routes->get('penduduk/', 'PendudukController::index');
 $routes->post('penduduk/', 'PendudukController::loginValidation');
 $routes->get('penduduk/login', 'PendudukController::index');
 $routes->post('penduduk/login', 'PendudukController::loginValidation');
+$routes->post('penduduk/logout', 'PendudukController::logout');
 
 $routes->get('penduduk/beranda', 'PendudukController::beranda');
 $routes->get('penduduk/data-diri/', 'PendudukController::dataDiri');
 $routes->get('penduduk/pesan/', 'PendudukController::pesan');
 $routes->post('penduduk/pesan/', 'PendudukController::kirimPesan');
 
+$routes->get('penduduk/kelengkapan-surat/', 'PendudukController::kelengkapanSurat');
+$routes->post('penduduk/kelengkapan-surat/', 'PendudukController::uploadSurat');
 
+$routes->get('penduduk/permohonan/', 'PendudukController::permohonan');
+$routes->post('penduduk/permohonan/', 'PendudukController::tambahPermohonanSurat');
+$routes->post('penduduk/batal-permohonan/', 'PendudukController::batalPermohonanSurat');
 
 
 /*

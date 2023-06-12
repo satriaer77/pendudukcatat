@@ -22,19 +22,16 @@
                       <tr>
                         <td class="w-30">
                           <div class="d-flex px-2 py-1 align-items-center">
-                            <div>
-                              <img src="../assets/img/icons/flags/US.png" alt="Country flag">
-                            </div>
                             <div class="ms-4">
-                              <p class="text-xs font-weight-bold mb-0">Country:</p>
+                              <p class="text-xs font-weight-bold mb-0">Pemohon:</p>
                               <h6 class="text-sm mb-0">United States</h6>
                             </div>
                           </div>
                         </td>
                         <td>
                           <div class="text-center">
-                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                            <h6 class="text-sm mb-0">2500</h6>
+                            <p class="text-xs font-weight-bold mb-0">Waktu Permohonan:</p>
+                            <h6 class="text-sm mb-0"><?= $sp["waktu_permohonan"] ?></h6>
                           </div>
                         </td>
                         <td>

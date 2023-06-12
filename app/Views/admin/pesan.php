@@ -8,11 +8,11 @@
 <div class="container-fluid py-4">
 
     <?php foreach($messages as $message) : ?>
-    <div class="row">
+    <div class="row mb-4">
       
 
-        <a class="col-12" href="<?= base_url('admin/pesan/'.$message["nik"]) ?>">
-            <div class="card shadow-lg mx-4 ">
+        <a class="col-12" href="<?= base_url('admin/pesan/'.$message["nik"].'#last-pesan') ?>">
+            <div class="card shadow-lg mx-4">
               <div class="card-body p-3">
 
                 <div class="row gx-4">
@@ -33,7 +33,7 @@
                   <div class="col-auto my-auto">
                     <div class="h-100">
                       <h5 class="mb-1">
-                       
+                      
                       </h5>
                     </div>
                   </div>

@@ -5,16 +5,22 @@ use App\Models\UserModel;
 use App\Models\AdminModel;
 use App\Models\PendudukModel;
 use App\Models\PesanModel;
+use App\Models\SuratModel;
+use App\Models\JenisSuratModel;
+use App\Models\PermohonanSuratModel;
 
 class PendudukController extends BaseController
 {
-    protected $AdminModel, $PendudukModel, $PesanModel;
+    protected $AdminModel, $PendudukModel, $PesanModel, $SuratModel, $JenisSuratModel, $PermohonanSuratModel;
 
     public function __construct()
     {
         $this->AdminModel    = new AdminModel();
         $this->PendudukModel = new PendudukModel();
         $this->PesanModel = new PesanModel();
+        $this->SuratModel = new SuratModel();
+        $this->JenisSuratModel = new JenisSuratModel();
+        $this->PermohonanSuratModel = new PermohonanSuratModel();
 
     }
 
@@ -32,8 +38,13 @@ class PendudukController extends BaseController
     public function beranda()
     {
         $data = [
-            'title' => "Beranda"
+            'title' => "Beranda",
+            'page'  => "beranda",
+            'messages' => $this->PesanModel->getAllPesanByNikNotReadLimit5(session()->get('nik')),
+            'suratPending'  => $this->PermohonanSuratModel->getAllPendingPermohonanByNik(session()->get('nik'))
         ];
+
+        // dd($data);
         return view('penduduk/beranda', $data);
     }
     public function dataDiri()
@@ -49,6 +60,7 @@ class PendudukController extends BaseController
 
     public function pesan()
     {
+        $this->PesanModel->readPesanByNikForPenduduk(session()->get('nik'));
         $data = [
             'title' => "Pesan",
             'page'  => "profile",
@@ -60,6 +72,37 @@ class PendudukController extends BaseController
         return view('penduduk/pesan', $data);
     }
 
+
+    public function kelengkapanSurat()
+    {
+        $data = [
+            'title' => "Kelengkapan Surat",
+            'page'  => "surat",
+            'diri'  => $this->PendudukModel->getDetailPendudukByNik(session()->get('nik')),
+            'suratWajib'  => $this->SuratModel->getAllSuratWajibByNik(session()->get('nik')),
+            'suratOpt'  => $this->SuratModel->getAllSuratOpsionalByNik(session()->get('nik')),
+            'jenisSurat'  => $this->JenisSuratModel->getAllJenisSurat()
+        ];
+
+        // dd($data);
+        return view('penduduk/kelengkapan_surat', $data);
+    }
+
+    public function permohonan()
+    {
+        $data = [
+            'title' => "Permohonan",
+            'page'  => "permohonan",
+            'diri'  => $this->PendudukModel->getDetailPendudukByNik(session()->get('nik')),
+            'suratAll'  => $this->SuratModel->getAllSuratByNik(session()->get('nik')),
+            'jenisSurat'  => $this->JenisSuratModel->getAllJenisSurat(),
+            'suratPending'  => $this->PermohonanSuratModel->getAllPendingPermohonanByNik(session()->get('nik'))
+        ];
+
+        // dd($data);
+        return view('penduduk/permohonan', $data);
+    }
+
     //-- END PAGE --//
 
 
@@ -68,6 +111,12 @@ class PendudukController extends BaseController
 
 
     //-- DATABASE INTERACTION & FUNCTION --//
+
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to(base_url("penduduk"));
+    }
 
     public function loginValidation()
     {
@@ -128,6 +177,77 @@ class PendudukController extends BaseController
         return redirect()->to(base_url("penduduk/pesan"));
     }
 
+    public function tambahPermohonanSurat()
+    {
+        $postData = [
+            'id_surat' => $this->request->getVar('id-surat'),
+            'nik' => session()->get('nik'),
+            'tujuan' => $this->request->getVar('tujuan'),
+        ];
+
+        $this->PermohonanSuratModel->insertPermohonan($postData);
+        return redirect()->to(base_url("penduduk/permohonan"));
+    }
+
+    public function batalPermohonanSurat()
+    {
+        $this->PermohonanSuratModel->updatePermohonanById($this->request->getVar('id-permohonan'), 0);
+        return redirect()->to(base_url("penduduk/permohonan"));
+    }
+
+    public function uploadSurat()
+    {
+
+        if(!$this->validate([
+            'foto' => [
+                'mime_in[foto,image/jpg,image/jpeg,image/gif,image/png]',
+                'max_size[foto,4096]',
+            ],
+        ]) )
+        {
+            $validation = \Config\Services::validation(); 
+            // dd($validation);
+            return redirect()->to(base_url('penduduk/kelengkapan-surat'))->withInput()->with('validation', $validation);
+        }
+        else
+        {
+            $idSurat   = $this->request->getVar("id-surat");
+            $fotoSurat = $this->request->getFile('foto');
+            
+            
+            $surat = $this->SuratModel->getAllSuratById($idSurat);
+            // dd($fotoSurat);
+            if($fotoSurat->getError() == 4)
+            {
+                $namaFile   = $surat["foto_surat"];
+            }
+            else 
+            {
+                $namaFile   = session()->get('nik').'_'.$surat["slug_name"].'.jpg';
+                if($surat["foto_surat"] != NULL)
+                {
+                    unlink('resources/uploads/images/documents/'.$namaFile);
+                    $fotoSurat->move('resources/uploads/images/documents/', $namaFile);
+                }
+                else
+                {
+                    $fotoSurat->move('resources/uploads/images/documents/', $namaFile);
+                }
+            }
+
+            
+            // dd($postData);
+            $this->PesanModel->insertPesan(
+                [
+                    'nik' => session()->get('nik'),
+                    'pengirim' => 0,
+                    'isi_pesan' => "Hai ".session()->get('nama')." Anda berhasil mengupload ".$surat["nama_surat"]
+                ]);
+            $this->SuratModel->updateSuratById($idSurat, $namaFile);
+            return redirect()->to(base_url('penduduk/kelengkapan-surat'));
+            
+        }
+    }
 
 
 }

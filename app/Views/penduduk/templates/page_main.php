@@ -14,6 +14,7 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="<?= base_url("resources") ?>/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="<?= base_url("resources") ?>/css/addon.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="<?= base_url('resources/css/argon-dashboard.min.css') ?>?v=1.0.7" rel="stylesheet" />
     <title><?= $title ?></title>

@@ -9,10 +9,9 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-5 text-center mx-auto">
-              <div class="navbar-brand font-weight-bolder ms-lg-0 mb-4 ">
-                <img src="<?= base_url('resources/images/logo-light.png') ?>" class="navbar-brand-img" style="height:6rem;" alt="main_logo">
+              <div class="navbar-brand font-weight-bolder ms-lg-0 mt-6">
+                <img src="<?= base_url('resources/images/logo-light.png') ?>" class="navbar-brand-img" style="height:7rem;" alt="main_logo">
               </div>
-              <p class="text-lead text-white">Silahkan isi form untuk masuk ke akun anda.</p>
             </div>
           </div>
         </div>

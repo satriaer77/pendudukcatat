@@ -11,7 +11,7 @@ class JenisSuratModel extends Model
 {
     protected $table      = 'jenis_surat';
     protected $primaryKey = 'id_jenis_surat';
-    protected $allowedFields = ['nama_surat']; 
+    protected $allowedFields = ['nama_surat', 'jenis_status']; 
 
     public function getAllJenisSurat()
     {

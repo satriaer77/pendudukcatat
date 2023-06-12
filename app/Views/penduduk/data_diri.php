@@ -47,7 +47,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center" href="<?= base_url('penduduk/pesan') ?>" role="tab" aria-selected="false">
+                  <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center" href="<?= base_url('penduduk/pesan#last-pesan') ?>" role="tab" aria-selected="false">
                     <i class="ni ni-email-83"></i>
                     <span class="ms-2">Pesan</span>
                   </a>
@@ -69,97 +69,107 @@
 
 
 
-    <div class="container-fluid py-4">
-      
-      <div class="row">
-        <div class="col-md-8">
+<div class="container-fluid py-4">
+  
+  <div class="row">
+    <div class="col-md-8">
 
-          <div class="card">
-            <div class="card-body">
-              <p class="text-uppercase text-sm">Data Penduduk</p>
-              
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">NIK</label>
-                    <input class="form-control" type="text" value="<?= $diri["nik"] ?>" disabled>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Nama Penduduk</label>
-                    <input class="form-control" type="email" value="<?= $diri["nama_penduduk"] ?>" disabled>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Tanggal Lahir</label>
-                    <input class="form-control" type="date" value="<?= $diri["tanggal_lahir"] ?>" disabled>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Jenis Kelamin</label>
-                    <input class="form-control" type="text" value="<?= $diri["jenis_kelamin"] ?>" disabled>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Golongan Darah</label>
-                    <input class="form-control" type="text" value="<?= $diri["golongan_darah"] ?>" disabled>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Agama</label>
-                    <input class="form-control" type="text" value="<?= $diri["agama"] ?>" disabled>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Pekerjaan</label>
-                    <input class="form-control" type="text" value="<?= $diri["nama_pekerjaan"] ?>" disabled>
-                  </div>
-                </div>
+      <div class="card">
+        <div class="card-body">
+          <p class="text-uppercase text-sm">Data Penduduk</p>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">NIK</label>
+                <input class="form-control" type="text" value="<?= $diri["nik"] ?>" disabled>
               </div>
-
-              <hr class="horizontal dark">
-
-              <p class="text-uppercase text-sm">Detail Alamat Penduduk</p>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Alamat Lengkap</label>
-                    <input class="form-control" type="text" value="<?= $diri["alamat_detail"] ?> RT <?= $diri["no_rt"] ?>, RW <?= $diri["no_rw"] ?>, Kamal, Bangkalan, Jawa Timur" disabled>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">RT</label>
-                    <input class="form-control" type="text" value="<?= $diri["no_rt"] ?>" disabled>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">RW</label>
-                    <input class="form-control" type="text" value="<?= $diri["no_rw"] ?>" disabled>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Desa</label>
-                    <input class="form-control" type="text" value="Kamal" disabled>
-                  </div>
-                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Nama Penduduk</label>
+                <input class="form-control" type="email" value="<?= $diri["nama_penduduk"] ?>" disabled>
               </div>
-              
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Tanggal Lahir</label>
+                <input class="form-control" type="date" value="<?= $diri["tanggal_lahir"] ?>" disabled>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Jenis Kelamin</label>
+                <input class="form-control" type="text" value="<?= $diri["jenis_kelamin"] ?>" disabled>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Golongan Darah</label>
+                <input class="form-control" type="text" value="<?= $diri["golongan_darah"] ?>" disabled>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Agama</label>
+                <input class="form-control" type="text" value="<?= $diri["agama"] ?>" disabled>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Pekerjaan</label>
+                <input class="form-control" type="text" value="<?= $diri["nama_pekerjaan"] ?>" disabled>
+              </div>
             </div>
           </div>
 
+          <hr class="horizontal dark">
+
+          <p class="text-uppercase text-sm">Detail Alamat Penduduk</p>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Alamat Lengkap</label>
+                <input class="form-control" type="text" value="<?= $diri["alamat_detail"] ?> RT <?= $diri["no_rt"] ?>, RW <?= $diri["no_rw"] ?>, Kamal, Bangkalan, Jawa Timur" disabled>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">RT</label>
+                <input class="form-control" type="text" value="<?= $diri["no_rt"] ?>" disabled>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">RW</label>
+                <input class="form-control" type="text" value="<?= $diri["no_rw"] ?>" disabled>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Desa</label>
+                <input class="form-control" type="text" value="Kamal" disabled>
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
-        
+
+
+      <div class="row mt-5">
+        <div class="col-12">
+          <form action="<?= base_url('penduduk/logout') ?>" method="POST">
+            <button class="btn btn-lg btn-primary w-100" type="submit">Logout</button>
+          </form>
+        </div>
+      </div>
+
     </div>
+  </div>
+
+    
+</div>
     
 
 

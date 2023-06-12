@@ -1,3 +1,5 @@
+<?php if(session()->get('nik') != "") : ?>
+
 <div class="position-sticky z-index-sticky top-0">
     <div class="row">
       <div class="col-12">
@@ -18,7 +20,7 @@
               <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
                   <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="<?= base_url('penduduk/beranda') ?>">
-                    <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
+                    <i class="fa fa-home opacity-6 text-dark me-1"></i>
                     Beranda
                   </a>
                 </li>
@@ -29,14 +31,14 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-up.html">
-                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                  <a class="nav-link me-2" href="<?= base_url('penduduk/permohonan') ?>">
+                    <i class="fas fa-inbox opacity-6 text-dark me-1"></i>
                     Permohonan
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-in.html">
-                    <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                  <a class="nav-link me-2" href="<?= base_url('penduduk/kelengkapan-surat') ?>">
+                    <i class="fas fa-file opacity-6 text-dark me-1"></i>
                     Kelengkapan Surat
                   </a>
                 </li>
@@ -44,7 +46,7 @@
 
               <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
-                  <a href="https://www.creative-tim.com/product/argon-dashboard">
+                  <a href="<?= base_url('penduduk/data-diri') ?>">
                     <div class="avatar avatar-md me-3 shadow" style="background: url('<?= base_url('resources/uploads/images/profile/'.session()->get("foto")) ?>'); background-size:cover"></div>   
                   </a>
                 </li>
@@ -57,3 +59,5 @@
       </div>
     </div>
 </div>
+
+<?php endif; ?>

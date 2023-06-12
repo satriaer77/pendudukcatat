@@ -11,8 +11,13 @@ class PermohonanSuratModel extends Model
 {
     protected $table      = 'permohonan_surat';
     protected $primaryKey = 'id_permohonan';
-    protected $allowedFields = ['id_surat', 'tanggal_permohonan', 'status', 'tanggal_disetujui', 'nik']; 
+    protected $allowedFields = ['id_surat', 'tanggal_permohonan', 'status', 'tanggal_disetujui', 'nik', 'tujuan', 'info']; 
 
+ 
+    //Status
+    // 0 -> Reject
+    // 1 -> Pending
+    // 2 -> Accept 
 
     public function getAllPermohonanSurat()
     {
@@ -21,33 +26,89 @@ class PermohonanSuratModel extends Model
 
     public function getAllPendingPermohonanSurat()
     {
-        return $this->where('status',0)->get()->getResultArray();
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',1)->get()->getResultArray();
     }
-
+    public function getAllPendingPermohonanByNik($nik)
+    {
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',1)->where('surat.nik', $nik)->get()->getResultArray();
+    }
+    
+    
     public function getAllAcceptPermohonanSurat()
     {
-        return $this->where('status',1)->get()->getResultArray();
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',2)->get()->getResultArray();
+    }
+    public function getAllAcceptPermohonanSuratByNik($nik)
+    {
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',2)->where('nik', $nik)->get()->getResultArray();
     }
 
     public function getAllRejectPermohonanSurat()
     {
-        return $this->where('status',2)->get()->getResultArray();
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',0)->get()->getResultArray();
+    }
+    public function getAllRejectPermohonanSuratByNik($nik)
+    {
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',0)->where('nik', $nik)->get()->getResultArray();
+    }
+
+    public function getAllPendingPermohonanSuratByJenis($idJenisSurat)
+    {
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',0)->where('surat.id_jenis_surat' , $idJenisSurat)->get()->getResultArray();
+    }
+
+    public function getAllPendingPermohonanSuratByJenisSlug($slugName)
+    {
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',0)->where('slug_name' , $slugName)->get()->getResultArray();
     }
 
     //Surat Kematian//
     public function getAllPendingPermohonanSuratKematian()
     {
-        return $this->where('status',0)->where('id_surat' , 1)->get()->getResultArray();
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',0)->where('id_surat' , 1)->get()->getResultArray();
     }
 
     public function getAllAcceptPermohonanSuratKematian()
     {
-        return $this->where('status',1)->where('id_surat' , 1)->get()->getResultArray();
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',1)->where('id_surat' , 1)->get()->getResultArray();
     }
 
     public function getAllRejectPermohonanSuratKematian()
     {
-        return $this->where('status',2)->where('id_surat' , 1)->get()->getResultArray();
+        return $this->join('surat', 'surat.id_surat = permohonan_surat.id_surat')
+        ->join('jenis_surat', 'surat.id_jenis_surat = jenis_surat.id_jenis_surat')
+        ->select('permohonan_surat.*, jenis_surat.nama_surat')
+        ->where('status',2)->where('id_surat' , 1)->get()->getResultArray();
     }
 
     public function acceptPermohonanSurat($idPermohonan)
@@ -67,10 +128,15 @@ class PermohonanSuratModel extends Model
         ->where('id_permohonan', $idPermohonan)->get()->getRowArray();
 	}
 
-    public function insertUser($data)
+    public function insertPermohonan($data)
     {
         $this->insert($data);
         return $this->getInsertID();
+    }
+
+    public function updatePermohonanById($idPermohonan, $status)
+    {
+        return$this->where('id_permohonan', $idPermohonan)->set(['status' => $status])->update();
     }
 
 

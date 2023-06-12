@@ -8,10 +8,13 @@ use App\Models\RwModel;
 use App\Models\RtModel;
 use App\Models\PekerjaanModel;
 use App\Models\PesanModel;
+use App\Models\JenisSuratModel;
+use App\Models\SuratModel;
+use App\Models\PermohonanSuratModel;
 
 class AdminController extends BaseController
 {
-    protected $AdminModel, $PendudukModel, $RwModel, $RtModel, $PekerjaanModel, $PesanModel;
+    protected $AdminModel, $PendudukModel, $RwModel, $RtModel, $PekerjaanModel, $PesanModel, $JenisSuratModel, $SuratModel, $PermohonanSuratModel;
 
     public function __construct()
     {
@@ -21,6 +24,9 @@ class AdminController extends BaseController
         $this->RtModel = new RtModel();
         $this->PekerjaanModel = new PekerjaanModel();
         $this->PesanModel = new PesanModel();
+        $this->JenisSuratModel = new JenisSuratModel();
+        $this->SuratModel = new SuratModel();
+        $this->PermohonanSuratModel = new PermohonanSuratModel();
 
     }
 
@@ -111,21 +117,14 @@ class AdminController extends BaseController
         ];
         return view('admin/permohonan', $data);
     }
-    public function permohonanKk()
+    public function permohonanSurat($slugName)
     {
         $data = [
-            'title' => "Mengelola Permohonan Kartu Keluarga",
-            'page' => "permohonan"
+            'title' => "Mengelola Permohonan",
+            'page' => "permohonan",
+            'suratPermohonan' => $this->PermohonanSuratModel->getAllPendingPermohonanSuratByJenisSlug($slugName),
         ];
-        return view('admin/permohonan_kk', $data);
-    }
-    public function permohonanKematian()
-    {
-        $data = [
-            'title' => "Mengelola Permohonan Surat Kematian",
-            'page' => "permohonan"
-        ];
-        return view('admin/permohonan_kematian', $data);
+        return view('admin/permohonan_surat', $data);
     }
 
     public function detailPermohonan($idPermohonan)
@@ -165,10 +164,12 @@ class AdminController extends BaseController
     }
     public function pesanPenduduk($nik)
     {
+        $this->PesanModel->readPesanByNikForAdmin($nik);
         $data = [
             'title' => "Detail Pesan Penduduk",
             'page' => "pesan",
             'messages' => $this->PesanModel->getAllPesanByNik($nik),
+            'penduduk' => $this->PendudukModel->getPendudukByNik($nik),
         ];
         return view('admin/pesan_penduduk', $data);
     }
@@ -180,6 +181,9 @@ class AdminController extends BaseController
         ];
         return view('admin/permohonan', $data);
     }
+
+
+
 
 
     //-- FUNCTION --//
@@ -314,6 +318,7 @@ class AdminController extends BaseController
         }
         else
         {
+            $jenisSurat = $this->JenisSuratModel->getAllJenisSurat();
         
             $postData = [
                 'nik' => $this->request->getVar('nik'),
@@ -331,14 +336,33 @@ class AdminController extends BaseController
             ];
             // dd($postData);
             $penduduk = $this->PendudukModel->insertPenduduk($postData);
+            foreach($jenisSurat as $js) 
+            {
+                $this->SuratModel->insertSurat([
+                    'nik' => $postData["nik"], 
+                    'id_jenis_surat' => $js["id_jenis_surat"]]);
+            }
+            $this->PesanModel->insertBatchPesan([
+                [
+                    'nik' => $postData["nik"],
+                    'pengirim' => 0,
+                    'isi_pesan' => "Selamat Akun anda telah dibuat dan selamat datang Di Penduduk Catat ".$postData["nama_penduduk"]
+                ],
+                [
+                    'nik' => $postData["nik"],
+                    'pengirim' => 0,
+                    'isi_pesan' => "Silahkan mengupload surat kelengkapan anda!"
+                ],
+
+
+            ]);
+
             return redirect()->to(base_url('admin/penduduk'));
             
         }
     }
     public function editPenduduk($nik)
     {
-
-        
 
         if(!$this->validate([
             'nik' => 'required',
@@ -387,7 +411,12 @@ class AdminController extends BaseController
                 'foto' => $namaFile
             ];
             // dd($postData);
-            
+            $this->PesanModel->insertPesan(
+                [
+                    'nik' => $postData["nik"],
+                    'pengirim' => 0,
+                    'isi_pesan' => "Hai ".$postData["nama_penduduk"]." data anda sudah diperbarui"
+                ]);
             $penduduk = $this->PendudukModel->updatePenduduk($postData);
             return redirect()->to(base_url('admin/penduduk'));
             
@@ -403,6 +432,18 @@ class AdminController extends BaseController
             unlink('resources/uploads/images/profile/'.$penduduk["foto"]);
         }
 
+        $surat = $this->SuratModel->getAllSuratByNik($nik);
+
+        foreach($surat as $s)
+        {
+            if($s['foto_surat'] != NULL)
+            {
+                unlink('resources/uploads/documents/'.$s["foto_surat"]);
+            }
+        }
+
+        $this->PesanModel->deletePesanByNik($nik);
+        $this->SuratModel->deleteSuratByNik($nik);
         $this->PendudukModel->deletePendudukByNik($nik);
         return redirect()->to(base_url('admin/penduduk'));
     }

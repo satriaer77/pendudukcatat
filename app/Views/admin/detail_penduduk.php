@@ -37,7 +37,7 @@
                             <div class="input-group mb-3">
                                 <select name="jenis-kelamin" id="jenis-kelamin" class="form-control">
                                     <option value="Pria" <?php if($penduduk["jenis_kelamin"] == "Pria") echo"selected" ?>>Pria</option>
-                                    <option value="Wanita" <?php if($penduduk["jenis_kelamin"] == "Pria") echo"selected" ?>>Wanita</option>
+                                    <option value="Wanita" <?php if($penduduk["jenis_kelamin"] == "Wanita") echo"selected" ?>>Wanita</option>
                                 </select>
                             </div>
                             <label>Agama</label>
